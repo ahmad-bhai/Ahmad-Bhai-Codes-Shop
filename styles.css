@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    user-select: none;
+}
+
+:root {
+    --main__bg__color: #fff;
+    --main__fg__color: #1c2135
+}
+
+.title {
+    background: var(--main__fg__color);
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    padding: 1rem;
+}
+
+.ribbon {
+    position: absolute;
+    top: -12px;
+    right: -25px;
+    width: 60px;
+    font-size: 14px;
+    color: #fff;
+    background-color: purple;
+    padding: 4px;
+    text-align: center;
+    border-radius: 25px;
+    transform: rotate(20deg);
+}
+
+.update {
+    position: relative;
+    padding: 12px 20px;
+    width: 300px;
+    font-size: 16px;
+    color: #fff;
+    background-color: var(--main__fg__color);
+    cursor: pointer;
+    margin: auto;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.script-label {
+    color:black;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.codes {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border:2px solid black;
+    padding: 1rem 0;
+}
+
+.link-item, .link-item * {
+    cursor: pointer;
+}
+
+.side-icon {
+    width: 100px;
+}
+
+.link-item button {
+    background: white;
+    color: #1c2135;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    font-size: 12px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+}
+
+.link-item button img {
+    width: 100px;
+}
+

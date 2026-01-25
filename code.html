@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="siteTitleTag">AHMAD BHAI ADMIN PANEL</title>
+
+<link rel="icon" href="https://i.ibb.co/Z69FyZ04/20251103-091451.png" type="image/png" />
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<style>
+:root {
+    --primary: #3b82f6;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --heart-1: #ff0000;
+    --heart-2: #ff69b4;
+    --card-bg: rgba(15, 23, 42, 0.9);
+}
+body {
+    background: url('https://i.ibb.co/yF1YLfxB/IMG-20251026-111102-111.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; margin: 0; backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+.glass-card {
+    background: var(--card-bg); backdrop-filter: blur(15px);
+    padding: 30px; border-radius: 25px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    text-align: center; width: 360px; border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.admin-trigger { position: fixed; top: 15px; right: 15px; background: var(--success); color: white; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; z-index: 1000; }
+input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); color: #4ade80; text-align: center; outline: none; }
+.btn-main { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; width: 100%; padding: 14px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.id-badge { background: #1e293b; color: #f59e0b; padding: 12px; border-radius: 10px; font-family: monospace; font-weight: bold; margin: 15px 0; border: 1px solid #f59e0b; font-size: 16px; word-break: break-all; }
+.heart { display: inline-block; animation: heartBeat 0.9s infinite alternate; font-size: 20px; }
+@keyframes heartBeat { from { color: var(--heart-1); transform: scale(1); } to { color: var(--heart-2); transform: scale(1.2); } }
+.hidden { display: none !important; }
+#adminLoginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 2000; }
+.status-msg { font-size: 13px; height: 20px; margin: 5px 0; }
+.toggle-box { margin: 15px 0; display: flex; justify-content: center; align-items: center; gap: 10px; }
+.switch { position: relative; width: 50px; height: 26px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #334155; transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background: var(--primary); }
+input:checked + .slider:before { transform: translateX(24px); }
+</style>
+</head>
+<body>
+
+<button class="admin-trigger" onclick="showLogin()">ADMIN PANEL</button>
+
+<div id="adminLoginOverlay">
+    <div class="glass-card">
+        <h3>Admin Secure Login</h3>
+        <input type="password" id="adminPass" placeholder="Enter Password">
+        <div id="loginStatus" class="status-msg"></div>
+        <button class="btn-main" onclick="verifyAdmin()">Login</button>
+        <button class="btn-main" style="background: #475569; margin-top: 5px;" onclick="hideLogin()">Cancel</button>
+    </div>
+</div>
+
+<div id="adminPanel" class="glass-card hidden" style="width: 400px; max-height: 90vh; overflow-y: auto;">
+    <h3 style="color: var(--success); margin: 0;">Admin Settings</h3>
+    <div id="adminStatus" class="status-msg"></div>
+
+    <input type="text" id="changeName" placeholder="New Site Name">
+    <div style="display: flex; gap: 5px;">
+        <input type="text" id="changeHeart1" placeholder="Heart Color 1">
+        <input type="text" id="changeHeart2" placeholder="Heart Color 2">
+    </div>
+    <button class="btn-main" onclick="saveSettings()">UPDATE SITE</button>
+    <hr style="opacity:0.2; margin:20px 0;">
+
+    <h4 style="margin:0;">Search & Manage Users</h4>
+    <input type="text" id="searchUser" placeholder="Search by Name or ID" oninput="searchUsers()">
+    <input type="text" id="uName" placeholder="Name">
+    <input type="text" id="uID" placeholder="20-Digit ID">
+    <button class="btn-main" style="background:#0000FF;" onclick="addUserToCloud()">ADD / UPGRADE</button>
+    <div id="userList" style="margin-top:10px;"></div>
+    <button class="btn-main" style="background:#475569;" onclick="closeAdmin()">BACK</button>
+</div>
+
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyDS3Vc-QJScL5UnpHAd3ZV-Sk-57plSjKI",
+    authDomain: "reactions-maker-site.firebaseapp.com",
+    projectId: "reactions-maker-site",
+    storageBucket: "reactions-maker-site.firebasestorage.app",
+    messagingSenderId: "774371775155",
+    appId: "1:774371775155:web:6a4c8941b7f7a33dd696c6"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let myUID = localStorage.getItem('myUniqueID') || (()=>{let id="";for(let i=0;i<20;i++)id+=Math.floor(Math.random()*10); return id;})();
+localStorage.setItem('myUniqueID', myUID);
+
+function showLogin(){ document.getElementById('adminLoginOverlay').style.display='flex'; }
+function hideLogin(){ document.getElementById('adminLoginOverlay').style.display='none'; }
+
+function verifyAdmin() {
+    const pass = document.getElementById('adminPass').value;
+    if(pass === "181314") {
+        hideLogin();
+        document.getElementById('adminPanel').classList.remove('hidden');
+        loadUserList();
+    } else {
+        document.getElementById('loginStatus').innerHTML = "<span style='color:var(--danger)'>Wrong!</span>";
+    }
+}
+
+function saveSettings() {
+    let name = document.getElementById('changeName').value;
+    let h1 = document.getElementById('changeHeart1').value;
+    let h2 = document.getElementById('changeHeart2').value;
+    db.ref('settings').update({ name, h1, h2 }).then(()=> {
+        document.getElementById('adminStatus').innerHTML = "Updated!";
+        setTimeout(()=>document.getElementById('adminStatus').innerHTML="",2000);
+    });
+}
+
+function addUserToCloud() {
+    let name = document.getElementById('uName').value;
+    let id = document.getElementById('uID').value.trim();
+    let date = new Date().toLocaleString();
+    if(name && id.length >= 10) {
+        db.ref('users').push({ name, id, date, blocked: false });
+        document.getElementById('uName').value=''; document.getElementById('uID').value='';
+    }
+}
+
+function loadUserList() {
+    db.ref('users').once('value').then(snap=>{
+        let usersArray=[];
+        snap.forEach(child=>{
+            usersArray.push({ key: child.key, ...child.val() });
+        });
+        // Sort newest first
+        usersArray.sort((a,b)=> new Date(b.date) - new Date(a.date));
+        renderUserList(usersArray);
+    });
+}
+
+function renderUserList(usersArray) {
+    let html="";
+    usersArray.forEach(u=>{
+        html+=`<div style="background:rgba(255,255,255,0.05); padding:8px; margin-bottom:5px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+        <span><b>${u.name}</b><br><small>ID: ${u.id}<br>Date: ${u.date || '-'}</small></span>
+        <div>
+            <button onclick="toggleBlock('${u.key}')" style="background:${u.blocked?'#ef4444':'#22c55e'}; border:none; color:white; border-radius:4px; padding:5px; cursor:pointer;">${u.blocked?'Unblock':'Block'}</button>
+            <button onclick="removeUserFromCloud('${u.key}')" style="background:var(--danger); border:none; color:white; border-radius:4px; padding:5px; cursor:pointer;">X</button>
+        </div>
+        </div>`;
+    });
+    document.getElementById('userList').innerHTML=html;
+}
+
+function removeUserFromCloud(key) { db.ref('users').child(key).remove().then(()=>loadUserList()); }
+function toggleBlock(key) {
+    db.ref('users').child(key).once('value').then(snap=>{
+        let blocked = snap.val().blocked || false;
+        db.ref('users').child(key).update({ blocked: !blocked }).then(()=>loadUserList());
+    });
+}
+
+function searchUsers() {
+    let query = document.getElementById('searchUser').value.toLowerCase();
+    db.ref('users').once('value').then(snap=>{
+        let usersArray=[];
+        snap.forEach(child=>{
+            let u={ key: child.key, ...child.val() };
+            if(u.name.toLowerCase().includes(query) || u.id.includes(query)) usersArray.push(u);
+        });
+        // Sort newest first
+        usersArray.sort((a,b)=> new Date(b.date) - new Date(a.date));
+        renderUserList(usersArray);
+    });
+}
+
+function closeAdmin(){ window.location.reload(); }
+</script>
+</body>
+</html>
