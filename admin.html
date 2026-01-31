@@ -4,128 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel</title>
-
 <style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#1c242a;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}
-
-.panel{
-    background:#2a333b;
-    padding:30px;
-    border-radius:12px;
-    width:320px;
-    text-align:center;
-    box-shadow:0 0 25px rgba(0,0,0,0.5);
-}
-
-input{
-    width:100%;
-    padding:12px;
-    border-radius:6px;
-    border:none;
-    margin-top:10px;
-    text-align:center;
-    font-size:16px;
-}
-
-button{
-    margin-top:15px;
-    padding:10px 15px;
-    border:none;
-    border-radius:6px;
-    background:#00c853;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    width:100%;
-}
-
-.toggle-area{
-    margin-top:25px;
-    display:none;
-}
-
-.switch{
-    position:relative;
-    display:inline-block;
-    width:60px;
-    height:30px;
-}
-
-.switch input{ display:none; }
-
-.slider{
-    position:absolute;
-    top:0; left:0; right:0; bottom:0;
-    background:#ccc;
-    border-radius:30px;
-    cursor:pointer;
-    transition:.4s;
-}
-
-.slider:before{
-    content:"";
-    position:absolute;
-    height:22px;
-    width:22px;
-    left:4px;
-    bottom:4px;
-    background:white;
-    border-radius:50%;
-    transition:.4s;
-}
-
-input:checked + .slider{
-    background:#00c853;
-}
-
-input:checked + .slider:before{
-    transform:translateX(28px);
-}
-
-.status{
-    margin-top:10px;
-    font-weight:bold;
-}
+body { background:#1c242a; color:white; font-family:Arial; text-align:center; padding-top:50px; }
+input[type="password"] { padding:10px; font-size:16px; width:200px; margin:10px; }
+button { padding:10px 20px; font-size:16px; cursor:pointer; }
+.switch { position: relative; display: inline-block; width:60px; height:34px; margin-top:20px; }
+.switch input { opacity:0; width:0; height:0; }
+.slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#ccc; transition:.4s; border-radius:34px; }
+.slider:before { position:absolute; content:""; height:26px; width:26px; left:4px; bottom:4px; background:white; transition:.4s; border-radius:50%; }
+input:checked + .slider { background:green; }
+input:checked + .slider:before { transform:translateX(26px); }
 </style>
 </head>
-
 <body>
 
-<div class="panel">
-    <h2>Admin Login</h2>
-    <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="login()">Login</button>
+<h2>Admin Login</h2>
+<input type="password" id="pass" placeholder="Enter Password">
+<button id="loginBtn">Login</button>
 
-    <div class="toggle-area" id="adminControls">
-        <h3>Maintenance Mode</h3>
-        <label class="switch">
-            <input type="checkbox" id="maintSwitch" onchange="updateMaintenance()">
-            <span class="slider"></span>
-        </label>
-        <div class="status" id="statusText">Loading...</div>
-    </div>
+<div id="adminPanel" style="display:none;">
+  <h2>Maintenance Mode</h2>
+  <label class="switch">
+    <input type="checkbox" id="toggleMaintenance">
+    <span class="slider"></span>
+  </label>
 </div>
 
-<!-- 🔥 Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB5RMsZqPR_K15GvOsKHLKPmRYKYTzzVvc",
   authDomain: "system-d7401.firebaseapp.com",
   databaseURL: "https://system-d7401-default-rtdb.firebaseio.com",
   projectId: "system-d7401",
-  storageBucket: "system-d7401.appspot.com",
+  storageBucket: "system-d7401.firebasestorage.app",
   messagingSenderId: "1012850905689",
   appId: "1:1012850905689:web:4cb43cb6d136ccb98a1748"
 };
@@ -134,32 +48,25 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const maintenanceRef = ref(db, "maintenance/status");
 
-// Login Function
-window.login = function(){
-    const pass = document.getElementById("password").value;
-    if(pass === "181314"){
-        document.getElementById("adminControls").style.display = "block";
-        loadStatus();
-    } else {
-        alert("Wrong Password!");
-    }
-}
+const loginBtn = document.getElementById("loginBtn");
+loginBtn.addEventListener("click", () => {
+  const pass = document.getElementById("pass").value;
+  if(pass === "181314"){
+    document.getElementById("adminPanel").style.display = "block";
+  } else {
+    alert("Wrong password!");
+  }
+});
 
-// Load current maintenance state
-function loadStatus(){
-    onValue(maintenanceRef, (snapshot) => {
-        const isOn = snapshot.val() === true;
-        document.getElementById("maintSwitch").checked = isOn;
-        document.getElementById("statusText").innerText =
-            isOn ? "Website is UNDER MAINTENANCE" : "Website is LIVE";
-    });
-}
+const toggle = document.getElementById("toggleMaintenance");
 
-// Update maintenance state
-window.updateMaintenance = function(){
-    const state = document.getElementById("maintSwitch").checked;
-    set(maintenanceRef, state);
-}
+onValue(maintenanceRef, (snap) => {
+  toggle.checked = snap.val();
+});
+
+toggle.addEventListener("change", () => {
+  set(maintenanceRef, toggle.checked);
+});
 </script>
 
 </body>
