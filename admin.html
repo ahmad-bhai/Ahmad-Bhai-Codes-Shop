@@ -3,31 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel</title>
+<title>Admin Panel | AHMAD BHAI CODES SHOP</title>
+
 <style>
-body { background:#1c242a; color:white; font-family:Arial; text-align:center; padding-top:50px; }
-input[type="password"] { padding:10px; font-size:16px; width:200px; margin:10px; }
-button { padding:10px 20px; font-size:16px; cursor:pointer; }
-.switch { position: relative; display: inline-block; width:60px; height:34px; margin-top:20px; }
-.switch input { opacity:0; width:0; height:0; }
-.slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#ccc; transition:.4s; border-radius:34px; }
-.slider:before { position:absolute; content:""; height:26px; width:26px; left:4px; bottom:4px; background:white; transition:.4s; border-radius:50%; }
-input:checked + .slider { background:green; }
-input:checked + .slider:before { transform:translateX(26px); }
+body{
+  background:#1c242a;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+  padding:25px;
+}
+input{
+  padding:8px;
+  width:100%;
+  margin-top:5px;
+  border-radius:6px;
+  border:none;
+}
+button{
+  padding:8px 18px;
+  cursor:pointer;
+  margin-top:10px;
+  border-radius:6px;
+  border:none;
+}
+.box{
+  border:1px solid #444;
+  padding:14px;
+  margin:14px auto;
+  max-width:360px;
+  border-radius:12px;
+  text-align:left;
+}
+.small{
+  font-size:12px;
+  color:#aaa;
+  margin-bottom:6px;
+}
+.msg{
+  margin-top:8px;
+  font-size:13px;
+  color:#4caf50;
+  display:none;
+}
+.toggle{
+  margin-top:8px;
+}
 </style>
 </head>
+
 <body>
 
 <h2>Admin Login</h2>
-<input type="password" id="pass" placeholder="Enter Password">
+<input type="password" id="pass" placeholder="Admin password">
 <button id="loginBtn">Login</button>
 
+<p id="loginMsg" class="msg"></p>
+
 <div id="adminPanel" style="display:none;">
-  <h2>Maintenance Mode</h2>
-  <label class="switch">
-    <input type="checkbox" id="toggleMaintenance">
-    <span class="slider"></span>
-  </label>
+
+<h2>Maintenance Mode</h2>
+<label class="toggle">
+<input type="checkbox" id="toggleMaintenance"> Website Maintenance ON
+</label>
+
+<hr style="margin:25px 0;">
+
+<h2>Products Control</h2>
+<div id="scripts"></div>
+
 </div>
 
 <script type="module">
@@ -35,38 +79,96 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB5RMsZqPR_K15GvOsKHLKPmRYKYTzzVvc",
-  authDomain: "system-d7401.firebaseapp.com",
-  databaseURL: "https://system-d7401-default-rtdb.firebaseio.com",
-  projectId: "system-d7401",
-  storageBucket: "system-d7401.firebasestorage.app",
-  messagingSenderId: "1012850905689",
-  appId: "1:1012850905689:web:4cb43cb6d136ccb98a1748"
+ apiKey:"AIzaSyB5RMsZqPR_K15GvOsKHLKPmRYKYTzzVvc",
+ authDomain:"system-d7401.firebaseapp.com",
+ databaseURL:"https://system-d7401-default-rtdb.firebaseio.com",
+ projectId:"system-d7401",
+ storageBucket:"system-d7401.firebasestorage.app",
+ messagingSenderId:"1012850905689",
+ appId:"1:1012850905689:web:4cb43cb6d136ccb98a1748"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const maintenanceRef = ref(db, "maintenance/status");
 
-const loginBtn = document.getElementById("loginBtn");
-loginBtn.addEventListener("click", () => {
-  const pass = document.getElementById("pass").value;
-  if(pass === "181314"){
-    document.getElementById("adminPanel").style.display = "block";
-  } else {
-    alert("Wrong password!");
+/* LOGIN */
+loginBtn.onclick = ()=>{
+ if(pass.value==="181314"){
+  adminPanel.style.display="block";
+  loginMsg.style.display="block";
+  loginMsg.textContent="Login successful";
+ }else{
+  loginMsg.style.display="block";
+  loginMsg.style.color="#ff5252";
+  loginMsg.textContent="Wrong password";
+ }
+};
+
+/* MAINTENANCE */
+const maintenanceRef = ref(db,"maintenance/status");
+onValue(maintenanceRef,s=>{
+ toggleMaintenance.checked = s.val()===true;
+});
+toggleMaintenance.onchange=()=>{
+ set(maintenanceRef,toggleMaintenance.checked);
+};
+
+/* PRODUCTS */
+const names={
+ s1:"QX LIVE CODE",
+ s2:"ANDROID FEEDBACKS",
+ s3:"IPHONE FEEDBACKS",
+ s4:"QX PARTNER BOT SS",
+ s5:"QX WITHDRAWAL EMAIL SS",
+ s6:"BINANCE PAY EMAIL SS",
+ s7:"QX SIGNALS ROBOT | MODEL 1",
+ s8:"QX SIGNALS ROBOT | MODEL 2"
+};
+
+const scriptsDiv=document.getElementById("scripts");
+
+Object.keys(names).forEach(id=>{
+ const r=ref(db,"scripts/"+id);
+
+ onValue(r,snap=>{
+  if(!snap.exists()){
+   set(r,{price:"",link:""});
+   return;
   }
+  const d=snap.val();
+
+  let box=document.getElementById("box_"+id);
+  if(box) box.remove();
+
+  box=document.createElement("div");
+  box.className="box";
+  box.id="box_"+id;
+
+  box.innerHTML=`
+   <b>${names[id]}</b>
+
+   <div class="small">Enter Price</div>
+   <input id="p_${id}" value="${d.price||""}">
+
+   <div class="small">Enter Url</div>
+   <input id="l_${id}" value="${d.link||""}">
+
+   <button onclick="save('${id}')">UPDATE</button>
+   <div id="m_${id}" class="msg">Updated successfully </div>
+  `;
+  scriptsDiv.appendChild(box);
+ });
 });
 
-const toggle = document.getElementById("toggleMaintenance");
-
-onValue(maintenanceRef, (snap) => {
-  toggle.checked = snap.val();
-});
-
-toggle.addEventListener("change", () => {
-  set(maintenanceRef, toggle.checked);
-});
+window.save=(id)=>{
+ set(ref(db,"scripts/"+id),{
+  price:document.getElementById("p_"+id).value,
+  link:document.getElementById("l_"+id).value
+ });
+ const m=document.getElementById("m_"+id);
+ m.style.display="block";
+ setTimeout(()=>m.style.display="none",2000);
+}
 </script>
 
 </body>

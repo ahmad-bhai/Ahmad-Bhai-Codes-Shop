@@ -1,108 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AHMAD BHAI CODES SHOP</title>
-  <link rel="stylesheet" href="free.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHMAD BHAI CODES SHOP</title>
+<link rel="stylesheet" href="free.css">
 </head>
 <body>
-  <div class="title">AHMAD BHAI CODES SHOP</div>
-  <img src="Ahmad.png" class="logo-animate">
-  
-  <div class="update">All updated codes are available here 🤖<br>Last Update on 05 February 2026
-    <span class="ribbon">NEW</span>
-  </div>
 
-  <div class="codes">
-    <div class="link-item" onclick="window.open('edits.js', '_blank')">
-      <button>
-        <div class="script-label">Script # 1</div>
-        <img src="qx.png">
-        <div>QX LIVE CODE</div>
-      </button>
-      <img class="side-icon" src="qx-thumb.jpg">
-    </div>
-    <div class="link-item" onclick="window.open('https://ahmad-bhai-android-feed.vercel.app/', '_blank')">
-      <button>
-        <div class="script-label">Script # 2</div>
-        <img src="tg.webp">
-        <div>ANDROID FEEDBACKS</div>
-      </button>
-      <img class="side-icon" src="feed-thumb.jpg">
-    </div>
-    <div class="link-item" onclick="window.open('https://ahmad-ifeedback.vercel.app/', '_blank')">
-      <button>
-        <div class="script-label">Script # 3</div>
-        <img src="tg.webp">
-        <div>IPHONE FEEDBACKS</div>
-      </button>
-      <img class="side-icon" src="ifeed-thumb.jpeg">
-    </div>
-    <div class="link-item" onclick="window.open('https://ahmad-qx-bot.vercel.app/', '_blank')">
-      <button>
-        <div class="script-label">Script # 4</div>
-        <img src="qx-bot.webp">
-        <div>QX PARTNER BOT SS</div>
-      </button>
-      <img class="side-icon" src="qx-bot-thumb.jpg">
-    </div>
-    <div class="link-item" onclick="window.open('https://ahmad-email.vercel.app/', '_blank')">
-      <button>
-        <div class="script-label">Script # 5</div>
-        <img src="qx.png">
-        <div>QX WITHDRAWAL EMAIL SS</div>
-      </button>
-      <img class="side-icon" src="qx-email-thumb.PNG">
-    </div>
-    <div class="link-item" onclick="window.open('https://ahmad-email-bnb.vercel.app/', '_blank')">
-      <button>
-        <div class="script-label">Script # 6</div>
-        <img src="bnb.png">
-        <div>BINANCE PAY EMAIL SS</div>
-      </button>
-      <img class="side-icon" src="bnb-email-thumb.png">
-    </div>
-    <div class="link-item" onclick="window.open('https://ahmad-bhai-next-candle-bot.netlify.app/', '_blank')">
-      <button>
-        <div class="script-label">Script # 7</div>
-        <img src="Ahmad.png">
-        <div>QX SIGNALS ROBOT | MODEL 1</div>
-      </button>
-    </div>
-    <div class="link-item" onclick="window.open('https://ahmad-bhai-auto-signals-bot.vercel.app/', '_blank')">
-      <button>
-        <div class="script-label">Script # 8</div>
-        <img src="Ahmad.png">
-        <div>QX SIGNALS ROBOT | MODEL 2</div>
-      </button>
-    </div>
-  </div>
+<div class="title">AHMAD BHAI CODES SHOP</div>
+<img src="Ahmad.png" class="logo-animate">
 
-  <!-- Firebase Maintenance Check -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+<div class="update">
+All updated codes are available here 🤖<br>
+Last Update on 08 February 2026
+<span class="ribbon">NEW</span>
+</div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyB5RMsZqPR_K15GvOsKHLKPmRYKYTzzVvc",
-      authDomain: "system-d7401.firebaseapp.com",
-      databaseURL: "https://system-d7401-default-rtdb.firebaseio.com",
-      projectId: "system-d7401",
-      storageBucket: "system-d7401.firebasestorage.app",
-      messagingSenderId: "1012850905689",
-      appId: "1:1012850905689:web:4cb43cb6d136ccb98a1748"
-    };
+<div class="codes">
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const maintenanceRef = ref(db, "maintenance/status");
+<div class="link-item" id="s1">
+<button>
+<div class="script-label">Script #1</div>
+<img src="qx.png">
+<div>QX LIVE CODE</div>
+<div class="price" id="p1"></div>
+</button>
+<img class="side-icon" src="qx-thumb.jpg">
+</div>
 
-    onValue(maintenanceRef, (snapshot) => {
-      if (snapshot.val() === true) {
-        window.location.href = "maintenance.html";
-      }
-    });
-  </script>
+<div class="link-item" id="s2">
+<button>
+<div class="script-label">Script #2</div>
+<img src="tg.webp">
+<div>ANDROID FEEDBACKS</div>
+<div class="price" id="p2"></div>
+</button>
+<img class="side-icon" src="feed-thumb.jpg">
+</div>
+
+<div class="link-item" id="s3">
+<button>
+<div class="script-label">Script #3</div>
+<img src="tg.webp">
+<div>IPHONE FEEDBACKS</div>
+<div class="price" id="p3"></div>
+</button>
+<img class="side-icon" src="ifeed-thumb.jpeg">
+</div>
+
+<div class="link-item" id="s4">
+<button>
+<div class="script-label">Script #4</div>
+<img src="qx-bot.webp">
+<div>QX PARTNER BOT SS</div>
+<div class="price" id="p4"></div>
+</button>
+<img class="side-icon" src="qx-bot-thumb.jpg">
+</div>
+
+<div class="link-item" id="s5">
+<button>
+<div class="script-label">Script #5</div>
+<img src="qx.png">
+<div>QX WITHDRAWAL EMAIL SS</div>
+<div class="price" id="p5"></div>
+</button>
+<img class="side-icon" src="qx-email-thumb.PNG">
+</div>
+
+<div class="link-item" id="s6">
+<button>
+<div class="script-label">Script #6</div>
+<img src="bnb.png">
+<div>BINANCE PAY EMAIL SS</div>
+<div class="price" id="p6"></div>
+</button>
+<img class="side-icon" src="bnb-email-thumb.png">
+</div>
+
+<div class="link-item" id="s7">
+<button>
+<div class="script-label">Script #7</div>
+<img src="Ahmad.png">
+<div>QX SIGNALS ROBOT | MODEL 1</div>
+<div class="price" id="p7"></div>
+</button>
+</div>
+
+<div class="link-item" id="s8">
+<button>
+<div class="script-label">Script #8</div>
+<img src="Ahmad.png">
+<div>QX SIGNALS ROBOT | MODEL 2</div>
+<div class="price" id="p8"></div>
+</button>
+</div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyB5RMsZqPR_K15GvOsKHLKPmRYKYTzzVvc",
+ authDomain:"system-d7401.firebaseapp.com",
+ databaseURL:"https://system-d7401-default-rtdb.firebaseio.com",
+ projectId:"system-d7401",
+ storageBucket:"system-d7401.firebasestorage.app",
+ messagingSenderId:"1012850905689",
+ appId:"1:1012850905689:web:4cb43cb6d136ccb98a1748"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+
+for(let i=1;i<=8;i++){
+ onValue(ref(db,"scripts/s"+i),s=>{
+  if(s.exists()){
+   document.getElementById("p"+i).innerText=s.val().price;
+   document.getElementById("s"+i).onclick=()=>window.open(s.val().link,"_blank");
+  }
+ });
+}
+
+// maintenance
+onValue(ref(db,"maintenance/status"),s=>{
+ if(s.val()===true) location.href="maintenance.html";
+});
+</script>
+
 </body>
 </html>
