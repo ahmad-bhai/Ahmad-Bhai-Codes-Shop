@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHMAD BHAI CODES SHOP</title>
+    <style>
+        /* Aapka provide kiya gaya CSS */
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Lucida Sans', sans-serif; }
+        body { background:#f5f7fb; color:#1c2135; text-align: center; padding-bottom: 50px; }
+        
+        .title { background:#1c2135; color:white; font-size:28px; text-align:center; padding:1rem; border-radius:10px; margin:1rem auto; width:fit-content; box-shadow:0 4px 15px rgba(0,0,0,0.08); }
+        
+        .logo-animate { width:120px; animation: float 2s ease-in-out infinite; margin:15px auto; display:block; border-radius: 50%; }
+        @keyframes float {0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
+
+        .update { position: relative; padding:14px 25px; width:320px; font-size:16px; color:#fff; background:linear-gradient(45deg,#1c2135,#2a3050); cursor:pointer; margin:2rem auto; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.15); font-weight:bold; border:1px solid #e2e6f0; }
+        .ribbon { position:absolute; top:-12px; right:-25px; width:85px; font-size:14px; color:#fff; background:linear-gradient(45deg,#8e2de2,#ff4ecd); padding:6px; text-align:center; border-radius:25px; transform:rotate(20deg); font-weight:bold; letter-spacing:0.5px; animation:pulse 1.8s infinite ease-in-out; box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+        @keyframes pulse {0%{transform:rotate(20deg) scale(1);}50%{transform:rotate(20deg) scale(1.15);}100%{transform:rotate(20deg) scale(1);}}
+
+        .codes { margin:2rem 0; display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
+        .link-item { display:flex; align-items:center; gap:12px; padding:1rem; border-radius:12px; background:#fff; border:1px solid #e2e6f0; box-shadow:0 4px 14px rgba(0,0,0,0.08); width: 90%; max-width: 400px; text-decoration: none; color: inherit; transition: 0.3s; }
+        .link-item:hover { transform:translateY(-4px); box-shadow:0 8px 22px rgba(0,0,0,0.12); }
+        
+        .product-info { text-align: left; flex-grow: 1; }
+        .product-name { font-weight: bold; font-size: 16px; display: block; }
+        .product-price { color: #8e2de2; font-weight: bold; font-size: 14px; }
+
+        /* Maintenance Overlay */
+        #maintenanceScreen { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#1c2135; color:white; z-index:9999; justify-content:center; align-items:center; flex-direction:column; }
+        
+        /* Toggle Switch Styling */
+        .settings-bar { margin: 10px; padding: 10px; background: #fff; border-radius: 8px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .user-id { font-size: 12px; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <div id="maintenanceScreen">
+        <h1>🚧 Maintenance Mode</h1>
+        <p>We are updating the shop. Please come back later!</p>
+    </div>
+
+    <div class="title">AHMAD BHAI CODES</div>
+
+    <img src="https://via.placeholder.com/120" class="logo-animate" alt="Logo">
+
+    <div class="settings-bar">
+        <span>Toggle Status: </span>
+        <input type="checkbox" id="userToggle">
+        <div class="user-id" id="displayUID">ID: Loading...</div>
+    </div>
+
+    <div class="update">
+        LATEST UPDATES
+        <div class="ribbon">NEW</div>
+    </div>
+
+    <div class="codes" id="productContainer">
+        <p>Loading products...</p>
+    </div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey:"AIzaSyB5RMsZqPR_K15GvOsKHLKPmRYKYTzzVvc",
+        authDomain:"system-d7401.firebaseapp.com",
+        databaseURL:"https://system-d7401-default-rtdb.firebaseio.com",
+        projectId:"system-d7401",
+        storageBucket:"system-d7401.firebasestorage.app",
+        messagingSenderId:"1012850905689",
+        appId:"1:1012850905689:web:4cb43cb6d136ccb98a1748"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // 1. UNIQUE ID LOGIC (20-digit)
+    let userID = localStorage.getItem('user_unique_id');
+    if(!userID) {
+        userID = Array.from({length: 20}, () => Math.floor(Math.random() * 10)).join('');
+        localStorage.setItem('user_unique_id', userID);
+    }
+    document.getElementById('displayUID').textContent = "UID: " + userID;
+
+    // 2. TOGGLE BUTTON LOGIC
+    const toggleBtn = document.getElementById('userToggle');
+    const savedToggle = localStorage.getItem('togglePosition');
+    // Default 'on' logic
+    toggleBtn.checked = savedToggle === null ? true : savedToggle === 'true';
+    
+    toggleBtn.onchange = () => {
+        localStorage.setItem('togglePosition', toggleBtn.checked);
+    };
+
+    // 3. MAINTENANCE MODE LOGIC
+    const maintenanceRef = ref(db, "maintenance/status");
+    onValue(maintenanceRef, snap => {
+        if(snap.val() === true) {
+            document.getElementById('maintenanceScreen').style.display = 'flex';
+        } else {
+            document.getElementById('maintenanceScreen').style.display = 'none';
+        }
+    });
+
+    // 4. LOAD PRODUCTS
+    const names = {
+        s1:"QX LIVE CODE", s2:"ANDROID FEEDBACKS", s3:"IPHONE FEEDBACKS",
+        s4:"QX PARTNER BOT SS", s5:"QX WITHDRAWAL EMAIL SS", s6:"BINANCE PAY EMAIL SS",
+        s7:"QX SIGNALS ROBOT | MODEL 1", s8:"QX SIGNALS ROBOT | MODEL 2"
+    };
+
+    const productContainer = document.getElementById('productContainer');
+    const scriptsRef = ref(db, "scripts");
+
+    onValue(scriptsRef, snap => {
+        productContainer.innerHTML = ""; // Clear loader
+        const data = snap.val();
+        
+        Object.keys(names).forEach(id => {
+            const item = data ? data[id] : null;
+            if(item) {
+                const card = document.createElement('a');
+                card.href = item.link || "#";
+                card.className = "link-item";
+                card.target = "_blank";
+                
+                card.innerHTML = `
+                    <div class="product-info">
+                        <span class="product-name">${names[id]}</span>
+                        <span class="product-price">Price: ${item.price || 'Contact'}</span>
+                    </div>
+                    <div style="font-weight:bold; color:#8e2de2;">GET ➔</div>
+                `;
+                productContainer.appendChild(card);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

