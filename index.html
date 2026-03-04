@@ -3,119 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOW TO USE - AHMAD BHAI</title>
+    <title>AHMAD BHAI CODES SITE</title>
     <style>
         :root {
             --bg-color: #1c242a;
             --accent-color: #5C13C3;
-            --card-border: rgba(255, 255, 255, 0.3);
-            --highlight: #00ff00;
+            --menu-bg: rgba(28, 36, 42, 0.98);
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Lucida Sans', sans-serif; }
-        
-        body { 
-            background: var(--bg-color); 
-            color: white; 
-            min-height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: 0.5s;
+            min-height: 100vh;
+            padding-top: 60px;
+            overflow-x: hidden;
+            transition: background 0.5s;
         }
 
-        body.menu-open #main-content { filter: blur(10px) brightness(0.5); pointer-events: none; }
-
-        /* --- Fixed Header (Menu Button Sahi Wala) --- */
-        header { 
-            position: fixed; 
-            top: 0; 
-            right: 0; 
-            width: 100%; 
-            padding: 15px 25px; 
-            display: flex; 
-            justify-content: flex-end; 
-            z-index: 2000; 
-            pointer-events: none; 
+        /* Menu Khulne par Content Blur aur Blue filter */
+        body.menu-open #main-content {
+            filter: blur(8px) brightness(0.6);
+            pointer-events: none;
+            background-color: rgba(0, 50, 150, 0.2);
         }
 
-        .hamburger { cursor: pointer; pointer-events: auto; }
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 1001;
+        }
+
+        /* Hamburger Styles */
+        .hamburger { cursor: pointer; }
         .hamburger input { display: none; }
-        .hamburger svg { height: 3em; transition: 600ms; }
-        .line { fill: none; stroke: white; stroke-linecap: round; stroke-width: 3; transition: 600ms; }
+        .hamburger svg { height: 3em; transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1); }
+        .line { fill: none; stroke: white; stroke-linecap: round; stroke-linejoin: round; stroke-width: 3; transition: 600ms; }
         .line-top-bottom { stroke-dasharray: 12 63; }
         .hamburger input:checked + svg { transform: rotate(-45deg); }
         .hamburger input:checked + svg .line-top-bottom { stroke-dasharray: 20 300; stroke-dashoffset: -32.42; }
 
-        /* --- Sidebar Menu with Icons --- */
+        /* --- Sidebar Menu --- */
         .menu-container {
-            position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
-            background: rgba(28, 36, 42, 0.98); border-left: 3px solid var(--accent-color);
-            padding: 100px 15px 20px; transition: 0.5s; z-index: 1500;
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: var(--menu-bg);
+            border-left: 3px solid var(--accent-color);
+            padding: 100px 15px 20px 15px;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
         }
-        .menu-container.active { right: 0; }
-        .nav-item {
-            background: rgba(255, 255, 255, 0.05); padding: 12px; display: flex;
-            align-items: center; gap: 15px; color: #7D8590; text-decoration: none;
-            font-size: 14px; font-weight: bold; border-radius: 12px; margin-bottom: 10px; transition: 0.3s;
-        }
-        .nav-item:hover { background: rgba(92, 19, 195, 0.25); color: white; transform: translateX(-5px); }
-        .nav-icon { width: 22px; height: 22px; object-fit: contain; }
 
-        /* --- Content Layout --- */
-        #main-content { width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 70px; }
-        .title { background: rgba(255,255,255,0.1); color: white; font-size: 26px; text-align: center; padding: 1rem; border-radius: 10px; margin: 1rem auto; width: fit-content; border: 1px solid var(--card-border); }
-        
-        .logo-animate { 
-            width: 130px; height: 130px; animation: float 2s ease-in-out infinite; 
-            margin: 15px auto; display: block; border-radius: 50%; 
-            border: 5px solid var(--accent-color); box-shadow: 0 0 15px var(--accent-color);
+        .menu-container.active {
+            right: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #7D8590;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover {
+            background: rgba(92, 19, 195, 0.25);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        /* PNG Icon Style */
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        /* --- Main UI Elements --- */
+        #main-content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.5s ease;
+        }
+
+        .logo-box {
+            margin-top: 30px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            padding: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            animation: zoomInOut 4s infinite ease-in-out;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
             object-fit: cover;
         }
-        @keyframes float { 0%{transform:scale(1);} 50%{transform:scale(1.1);} 100%{transform:scale(1);} }
 
-        /* --- Script Boxes --- */
-        .script-grid { display: flex; flex-direction: column; gap: 20px; width: 90%; max-width: 500px; margin-bottom: 30px; }
-        .script-box {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--card-border);
-            border-radius: 15px;
-            padding: 20px;
+        @keyframes zoomInOut {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            margin-top: 40px;
             text-align: center;
-            backdrop-filter: blur(10px);
         }
-        .script-box h3 { color: var(--accent-color); margin-bottom: 10px; font-size: 1.2rem; }
-        .script-box p { font-size: 13px; line-height: 1.6; color: #e0e0e0; margin-bottom: 15px; text-align: justify; }
-        
-        .highlight { color: var(--highlight); font-weight: bold; }
 
-        .watch-btn {
-            background: var(--accent-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 5px;
-            transition: 0.3s;
-            border: none;
+        .card {
+            background-color: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
         }
-        .watch-btn:hover { background: #7b2dfa; transform: scale(1.05); }
 
-        video { width: 100%; border-radius: 10px; margin-top: 15px; display: none; border: 2px solid var(--accent-color); }
+        .card h1 { font-size: 1.3rem; letter-spacing: 1px; color: white; }
+        .card p { font-size: 0.95rem; line-height: 1.6; color: #f0f0f0; }
 
-        .buy-here { margin: 25px 0; font-weight: bold; font-size: 18px; text-align: center; }
-        .buy-here a { color: var(--highlight); text-decoration: none; border-bottom: 2px solid var(--highlight); padding-bottom: 2px; }
+        .footer-text { margin-top: 15px; font-weight: 600; opacity: 0.7; font-size: 0.9rem; }
 
-        .footer-text { margin: 40px 0; font-size: 0.9rem; font-weight: bold; opacity: 0.8; }
     </style>
 </head>
 <body>
 
     <header>
         <label class="hamburger">
-            <input type="checkbox" id="menu-toggle">
+            <input type="checkbox" id="menu-toggle-btn">
             <svg viewBox="0 0 32 32">
                 <path class="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"></path>
                 <path class="line" d="M7 16 27 16"></path>
@@ -124,50 +180,48 @@
     </header>
 
     <nav class="menu-container" id="side-menu">
-        <a href="index.html" class="nav-item"><img src="dashboard.png" class="nav-icon"> DASHBOARD</a>
-        <a href="quotex-scripts-prices.html" class="nav-item"><img src="price.png" class="nav-icon"> QUOTEX SCRIPTS PRICES</a>
-        <a href="contact.html" class="nav-item"><img src="contact.png" class="nav-icon"> CONTACT</a>
-        <a href="buy-quotex-script.html" class="nav-item"><img src="buy-scripts.png" class="nav-icon"> BUY QUOTEX SCRIPTS</a>
-        <a href="how-to-use.html" class="nav-item"><img src="use.png" class="nav-icon"> HOW TO USE</a>
-        <a href="rules-info.html" class="nav-item"><img src="rules.png" class="nav-icon"> SCRIPTS RULE & INFO</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">
+                <img src="dashboard.png" class="nav-icon" alt="Dashboard"> DASHBOARD
+            </a>
+            <a href="quotex-scripts-prices.html" class="nav-item">
+                <img src="price.png" class="nav-icon" alt="Price"> QUOTEX SCRIPTS PRICES
+            </a>
+            <a href="contact.html" class="nav-item">
+                <img src="contact.png" class="nav-icon" alt="Contact"> CONTACT
+            </a>
+            <a href="buy-quotex-script.html" class="nav-item">
+                <img src="buy-scripts.png" class="nav-icon" alt="Buy"> BUY QUOTEX SCRIPTS
+            </a>
+            <a href="how-to-use.html" class="nav-item">
+                <img src="use.png" class="nav-icon" alt="Use"> HOW TO USE
+            </a>
+            <a href="rules-info.html" class="nav-item">
+                <img src="rules.png" class="nav-icon" alt="Rules"> SCRIPTS RULE & INFO
+            </a>
+        </div>
     </nav>
 
     <div id="main-content">
-        <div class="title">HOW TO USE</div>
-        <img src="logo.png" class="logo-animate">
+        <div class="logo-box">
+            <img src="logo.png" alt="Logo">
+        </div>
 
-        <div class="script-grid">
-            <div class="script-box">
-                <h3>SCRIPT 1</h3>
-                <p>COPY THE SCRIPT TEXT AND OPEN QUOTEX WEBSITE AND CLICK ON  ⋮ THEN CLICK ON ★ BOOKMARK AND OPEN IT NOW CLICK ON NAME INPUT OPTION ERASE ALL NAME TEXT ADD SET (<span class="highlight">A</span> OR <span class="highlight">E</span>) ON IT THEN CLICK ON URL INPUT OPTION AND ALSO ERASE ALL URL TEXT AND PASTE YOUR COPIED CODE ON IT AND GO BACK AND REFRESH YOUR PAGE THEN CLICK OPEN TOP SEARCH OPTION AND SEARCH NAME YOU <span class="highlight">A</span> OR <span class="highlight">E</span> ON IT AND CLICK ON ★ <span class="highlight">A</span> OR ★ <span class="highlight">E</span> NOW YOUR SCRIPT IS READY NOW CONTACT AND UNLOCK IT.</p>
-                <button class="watch-btn" onclick="toggleVideo('v1')">WATCH VIDEO</button>
-                <video id="v1" controls><source src="1.mp4" type="video/mp4"></video>
+        <div class="container">
+            <div class="card">
+                <h1>AHMAD BHAI CODES SITE</h1>
             </div>
 
-            <script>
-                for (let i = 2; i <= 8; i++) {
-                    document.write(`
-                    <div class="script-box">
-                        <h3>SCRIPT ${i}</h3>
-                        <p>OPEN WEBSITE THEN YOU SHOW A LOCK PAGE CONTACT AND UNLOCK IT.</p>
-                        <button class="watch-btn" onclick="toggleVideo('v${i}')">WATCH VIDEO</button>
-                        <video id="v${i}" controls><source src="${i}.mp4" type="video/mp4"></video>
-                    </div>
-                    `);
-                }
-            </script>
-        </div>
+            <div class="card">
+                <p>This website is for selling Scripts and Robots, You can also create or buy script, robots and more websites from it.</p>
+            </div>
 
-        <div class="buy-here">
-            ALL SCRIPTS AVAILABLE <a href="buy-quotex-script.html">HERE</a>
+            <p class="footer-text">® Registered with Ahmad Bhai</p>
         </div>
-
-        <div class="footer-text">® Registered with Ahmad Bhai</div>
     </div>
 
     <script>
-        // Menu Toggle
-        const toggleBtn = document.getElementById('menu-toggle');
+        const toggleBtn = document.getElementById('menu-toggle-btn');
         const sideMenu = document.getElementById('side-menu');
         const body = document.body;
 
@@ -181,21 +235,16 @@
             }
         });
 
-        // Video Toggle Function
-        function toggleVideo(id) {
-            const v = document.getElementById(id);
-            if (v.style.display === "block") {
-                v.style.display = "none";
-                v.pause();
-            } else {
-                // Hide other videos first (optional, for better UX)
-                document.querySelectorAll('video').forEach(vid => {
-                    if(vid.id !== id) { vid.style.display = 'none'; vid.pause(); }
-                });
-                v.style.display = "block";
-                v.play();
+        // Click outside to close (Optional but better UX)
+        document.addEventListener('click', function(event) {
+            if (body.classList.contains('menu-open') && 
+                !sideMenu.contains(event.target) && 
+                !toggleBtn.parentElement.contains(event.target)) {
+                toggleBtn.checked = false;
+                sideMenu.classList.remove('active');
+                body.classList.remove('menu-open');
             }
-        }
+        });
     </script>
 </body>
 </html>
