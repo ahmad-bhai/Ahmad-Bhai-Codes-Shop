@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOW TO USE - AHMAD BHAI</title>
+    <title>RULES & INFO - AHMAD BHAI</title>
     <style>
         :root {
             --bg-color: #1c242a;
@@ -26,19 +26,11 @@
 
         body.menu-open #main-content { filter: blur(10px) brightness(0.5); pointer-events: none; }
 
-        /* --- Fixed Header (Menu Button Sahi Wala) --- */
+        /* --- Fixed Header --- */
         header { 
-            position: fixed; 
-            top: 0; 
-            right: 0; 
-            width: 100%; 
-            padding: 15px 25px; 
-            display: flex; 
-            justify-content: flex-end; 
-            z-index: 2000; 
-            pointer-events: none; 
+            position: fixed; top: 0; right: 0; width: 100%; padding: 15px 25px; 
+            display: flex; justify-content: flex-end; z-index: 2000; pointer-events: none; 
         }
-
         .hamburger { cursor: pointer; pointer-events: auto; }
         .hamburger input { display: none; }
         .hamburger svg { height: 3em; transition: 600ms; }
@@ -47,7 +39,7 @@
         .hamburger input:checked + svg { transform: rotate(-45deg); }
         .hamburger input:checked + svg .line-top-bottom { stroke-dasharray: 20 300; stroke-dashoffset: -32.42; }
 
-        /* --- Sidebar Menu with Icons --- */
+        /* --- Sidebar Menu --- */
         .menu-container {
             position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
             background: rgba(28, 36, 42, 0.98); border-left: 3px solid var(--accent-color);
@@ -74,39 +66,29 @@
         }
         @keyframes float { 0%{transform:scale(1);} 50%{transform:scale(1.1);} 100%{transform:scale(1);} }
 
-        /* --- Script Boxes --- */
-        .script-grid { display: flex; flex-direction: column; gap: 20px; width: 90%; max-width: 500px; margin-bottom: 30px; }
-        .script-box {
+        /* --- Boxes --- */
+        .info-box {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--card-border);
             border-radius: 15px;
             padding: 20px;
-            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            margin-bottom: 20px;
             backdrop-filter: blur(10px);
+            text-align: center;
         }
-        .script-box h3 { color: var(--accent-color); margin-bottom: 10px; font-size: 1.2rem; }
-        .script-box p { font-size: 13px; line-height: 1.6; color: #e0e0e0; margin-bottom: 15px; text-align: justify; }
-        
-        .highlight { color: var(--highlight); font-weight: bold; }
 
-        .watch-btn {
-            background: var(--accent-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 5px;
-            transition: 0.3s;
-            border: none;
-        }
-        .watch-btn:hover { background: #7b2dfa; transform: scale(1.05); }
+        .update-text { font-weight: bold; font-size: 16px; color: #fff; }
+        .date-text { color: var(--highlight); display: block; margin-top: 5px; }
 
-        video { width: 100%; border-radius: 10px; margin-top: 15px; display: none; border: 2px solid var(--accent-color); }
+        .section-title { color: var(--accent-color); font-size: 22px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
 
-        .buy-here { margin: 25px 0; font-weight: bold; font-size: 18px; text-align: center; }
-        .buy-here a { color: var(--highlight); text-decoration: none; border-bottom: 2px solid var(--highlight); padding-bottom: 2px; }
+        ul { text-align: left; padding-left: 20px; list-style-type: none; }
+        li { margin-bottom: 12px; font-size: 14px; line-height: 1.5; position: relative; }
+        li::before { content: "•"; color: var(--accent-color); font-weight: bold; display: inline-block; width: 1em; margin-left: -1em; }
+
+        .info-para { font-size: 14px; line-height: 1.7; text-align: justify; color: #e0e0e0; }
 
         .footer-text { margin: 40px 0; font-size: 0.9rem; font-weight: bold; opacity: 0.8; }
     </style>
@@ -133,40 +115,42 @@
     </nav>
 
     <div id="main-content">
-        <div class="title">HOW TO USE</div>
+        <div class="title">RULES & INFO</div>
         <img src="logo.png" class="logo-animate">
 
-        <div class="script-grid">
-            <div class="script-box">
-                <h3>SCRIPT 1</h3>
-                <p>COPY THE SCRIPT TEXT AND OPEN QUOTEX WEBSITE AND CLICK ON  ⋮ THEN CLICK ON ★ BOOKMARK AND OPEN IT NOW CLICK ON NAME INPUT OPTION ERASE ALL NAME TEXT ADD SET (<span class="highlight">A</span> OR <span class="highlight">E</span>) ON IT THEN CLICK ON URL INPUT OPTION AND ALSO ERASE ALL URL TEXT AND PASTE YOUR COPIED CODE ON IT AND GO BACK AND REFRESH YOUR PAGE THEN CLICK OPEN TOP SEARCH OPTION AND SEARCH NAME YOU <span class="highlight">A</span> OR <span class="highlight">E</span> ON IT AND CLICK ON ★ <span class="highlight">A</span> OR ★ <span class="highlight">E</span> NOW YOUR SCRIPT IS READY NOW CONTACT AND UNLOCK IT.</p>
-                <button class="watch-btn" onclick="toggleVideo('v1')">WATCH VIDEO</button>
-                <video id="v1" controls><source src="1.mp4" type="video/mp4"></video>
-            </div>
-
-            <script>
-                for (let i = 2; i <= 8; i++) {
-                    document.write(`
-                    <div class="script-box">
-                        <h3>SCRIPT ${i}</h3>
-                        <p>OPEN WEBSITE THEN YOU SHOW A LOCK PAGE CONTACT AND UNLOCK IT.</p>
-                        <button class="watch-btn" onclick="toggleVideo('v${i}')">WATCH VIDEO</button>
-                        <video id="v${i}" controls><source src="${i}.mp4" type="video/mp4"></video>
-                    </div>
-                    `);
-                }
-            </script>
+        <div class="info-box">
+            <p class="update-text">All updated codes are available here 🤖</p>
+            <span class="date-text">Last Update on 04 March 2026</span>
         </div>
 
-        <div class="buy-here">
-            ALL SCRIPTS AVAILABLE <a href="buy-quotex-script.html">HERE</a>
+        <div class="info-box">
+            <h2 class="section-title">RULES</h2>
+            <ul>
+                <li>Rule 1: Payment first, Scripts later.</li>
+                <li>Rule 2: Failure to pay will result in your scripts being terminated.</li>
+                <li>Rule 3: Even if you give this to someone else, your scripts will be closed and your money will be wasted.</li>
+                <li>Rule 4: Hacking it or copying it will also stop your scripts, you will also lose your money and you can never use it again, and hacking or copying it will also put your Telegram channel at risk.</li>
+                <li>Rule 5: You can also share this scripts with other platforms for our scripts promotion.</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h2 class="section-title">INFO</h2>
+            <p class="info-para">
+                We officially launched our advanced Quotex script codes and websites in 2025 after 1 year and 7 months of dedicated research, development, and optimization. 
+                <br><br>
+                This project was independently developed with a strong focus on performance, accuracy, and clean execution. Every script was carefully coded, tested, and refined to ensure smooth functionality and reliable results. 
+                <br><br>
+                From strategy logic to system structure, each component was built with precision and upgraded multiple times during development. The goal was simple — to create high-quality, efficient, and modern script solutions tailored specifically for Quotex users. 
+                <br><br>
+                What began as an idea evolved into a complete collection of powerful trading scripts and professional websites, built with consistency, technical expertise, and long-term vision.
+            </p>
         </div>
 
         <div class="footer-text">® Registered with Ahmad Bhai</div>
     </div>
 
     <script>
-        // Menu Toggle
         const toggleBtn = document.getElementById('menu-toggle');
         const sideMenu = document.getElementById('side-menu');
         const body = document.body;
@@ -180,22 +164,6 @@
                 body.classList.remove('menu-open');
             }
         });
-
-        // Video Toggle Function
-        function toggleVideo(id) {
-            const v = document.getElementById(id);
-            if (v.style.display === "block") {
-                v.style.display = "none";
-                v.pause();
-            } else {
-                // Hide other videos first (optional, for better UX)
-                document.querySelectorAll('video').forEach(vid => {
-                    if(vid.id !== id) { vid.style.display = 'none'; vid.pause(); }
-                });
-                v.style.display = "block";
-                v.play();
-            }
-        }
     </script>
 </body>
 </html>

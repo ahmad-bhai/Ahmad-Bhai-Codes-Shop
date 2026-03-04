@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHMAD BHAI CODES SHOP</title>
+    <style>
+        :root {
+            --bg-color: #1c242a;
+            --accent-color: #5C13C3;
+            --card-border: rgba(255, 255, 255, 0.3);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Lucida Sans', sans-serif; }
+        
+        body { 
+            background: var(--bg-color); 
+            color: white; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.5s;
+        }
+
+        /* Menu Open Effect */
+        body.menu-open #main-content {
+            filter: blur(10px) brightness(0.5);
+            pointer-events: none;
+        }
+
+        /* --- Header (Always on Top) --- */
+        header { 
+            position: sticky; 
+            top: 0; 
+            width: 100%; 
+            padding: 10px 25px; 
+            display: flex; 
+            justify-content: flex-end; 
+            z-index: 1100; 
+            background: var(--bg-color); /* Scroll ke waqt background solid rahega */
+        }
+
+        .hamburger { cursor: pointer; }
+        .hamburger input { display: none; }
+        .hamburger svg { height: 3em; transition: 600ms; }
+        .line { fill: none; stroke: white; stroke-linecap: round; stroke-width: 3; transition: 600ms; }
+        .line-top-bottom { stroke-dasharray: 12 63; }
+        .hamburger input:checked + svg { transform: rotate(-45deg); }
+        .hamburger input:checked + svg .line-top-bottom { stroke-dasharray: 20 300; stroke-dashoffset: -32.42; }
+
+        /* --- Sidebar Menu --- */
+        .menu-container {
+            position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+            background: rgba(28, 36, 42, 0.98); border-left: 3px solid var(--accent-color);
+            padding: 100px 15px 20px; transition: 0.5s; z-index: 1000;
+        }
+        .menu-container.active { right: 0; }
+        .nav-item {
+            background: rgba(255, 255, 255, 0.05); padding: 12px; display: flex;
+            align-items: center; gap: 15px; color: #7D8590; text-decoration: none;
+            font-size: 14px; font-weight: bold; border-radius: 12px; margin-bottom: 10px; transition: 0.3s;
+        }
+        .nav-item:hover { background: rgba(92, 19, 195, 0.25); color: white; transform: translateX(-5px); }
+        .nav-icon { width: 22px; height: 22px; object-fit: contain; }
+
+        /* --- Page Content --- */
+        #main-content { width: 100%; display: flex; flex-direction: column; align-items: center; transition: 0.5s; }
+
+        .title { 
+            background: rgba(255,255,255,0.1); 
+            color: white; 
+            font-size: 26px; 
+            text-align: center; 
+            padding: 1rem; 
+            border-radius: 10px; 
+            margin: 1rem auto; 
+            width: fit-content; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid var(--card-border);
+        }
+
+        .logo-animate { 
+            width: 130px; 
+            height: 130px;
+            animation: float 2s ease-in-out infinite; 
+            margin: 15px auto; 
+            display: block; 
+            border-radius: 50%; 
+            border: 5px solid var(--accent-color); /* Added Border */
+            object-fit: cover;
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+        @keyframes float { 0%{transform:scale(1);} 50%{transform:scale(1.1);} 100%{transform:scale(1);} }
+
+        .codes { margin: 1rem 0; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; }
+        
+        .link-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            padding: 1rem; 
+            border-radius: 15px; 
+            background: rgba(255,255,255,0.1); 
+            border: 1px solid var(--card-border); 
+            width: 90%;
+            max-width: 420px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .link-item:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.2); }
+        
+        .side-icon { width: 90px; height: auto; border-radius: 8px; object-fit: cover; }
+        
+        .link-item button { 
+            background: transparent; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 13px; 
+            width: 240px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            border: none; 
+            cursor: pointer;
+        }
+        
+        .link-item button img { width: 90px; border-radius: 8px; margin-bottom: 8px; }
+
+        .centered { justify-content: center; }
+
+        .footer-text {
+            margin: 30px 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            opacity: 0.8;
+            letter-spacing: 1px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <label class="hamburger">
+            <input type="checkbox" id="menu-toggle">
+            <svg viewBox="0 0 32 32">
+                <path class="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"></path>
+                <path class="line" d="M7 16 27 16"></path>
+            </svg>
+        </label>
+    </header>
+
+    <nav class="menu-container" id="side-menu">
+        <a href="index.html" class="nav-item"><img src="dashboard.png" class="nav-icon"> DASHBOARD</a>
+        <a href="quotex-scripts-prices.html" class="nav-item"><img src="price.png" class="nav-icon"> QUOTEX SCRIPTS PRICES</a>
+        <a href="contact.html" class="nav-item"><img src="contact.png" class="nav-icon"> CONTACT</a>
+        <a href="buy-quotex-script.html" class="nav-item"><img src="buy-scripts.png" class="nav-icon"> BUY QUOTEX SCRIPTS</a>
+        <a href="how-to-use.html" class="nav-item"><img src="use.png" class="nav-icon"> HOW TO USE</a>
+        <a href="rules-info.html" class="nav-item"><img src="rules.png" class="nav-icon"> SCRIPTS RULE & INFO</a>
+    </nav>
+
+    <div id="main-content">
+        <div class="title">AHMAD BHAI CODES SHOP</div>
+        <img src="logo.png" class="logo-animate">
+        
+        <div class="codes">
+            <div class="link-item" onclick="window.open('edits.js', '_blank')">
+                <button>
+                    <img src="qx.png">
+                    <div>QX LIVE CODE</div>
+                    <p style="font-size: 10px; color: #00ff00; margin-top: 5px;">ALL SCRIPTS $30 PER MONTH</p>
+                </button>
+                <img class="side-icon" src="qx-thumb.jpg">
+            </div>
+
+            <div class="link-item" onclick="window.open('https://ahmad-bhai-android-feed.vercel.app/', '_blank')">
+                <button>
+                    <img src="tg.webp">
+                    <div>ANDROID FEEDBACKS</div>
+                </button>
+                <img class="side-icon" src="feed-thumb.jpg">
+            </div>
+
+            <div class="link-item" onclick="window.open('https://ahmad-ifeedback.vercel.app/', '_blank')">
+                <button>
+                    <img src="tg.webp">
+                    <div>IPHONE FEEDBACKS</div>
+                </button>
+                <img class="side-icon" src="ifeed-thumb.jpeg">
+            </div>
+
+            <div class="link-item" onclick="window.open('https://ahmad-qx-bot.vercel.app/', '_blank')">
+                <button>
+                    <img src="qx-bot.webp">
+                    <div>QX PARTNER BOT SS</div>
+                </button>
+                <img class="side-icon" src="qx-bot-thumb.jpg">
+            </div>
+
+            <div class="link-item" onclick="window.open('https://ahmad-email.vercel.app/', '_blank')">
+                <button>
+                    <img src="qx.png">
+                    <div>QX WITHDRAWAL EMAIL SS</div>
+                </button>
+                <img class="side-icon" src="qx-email-thumb.PNG">
+            </div>
+
+            <div class="link-item" onclick="window.open('https://ahmad-email-bnb.vercel.app/', '_blank')">
+                <button>
+                    <img src="bnb.png">
+                    <div>BINANCE PAY EMAIL SS</div>
+                </button>
+                <img class="side-icon" src="bnb-email-thumb.png">
+            </div>
+
+            <div class="link-item centered" onclick="window.open('https://ahmad-bhai-next-candle-bot.netlify.app/', '_blank')">
+                <button>
+                    <img src="logo.png">
+                    <div>QX SIGNALS ROBOT | MODEL 1</div>
+                </button>
+            </div>
+
+            <div class="link-item centered" onclick="window.open('https://ahmad-bhai-auto-signals-bot.vercel.app/', '_blank')">
+                <button>
+                    <img src="logo.png">
+                    <div>QX SIGNALS ROBOT | MODEL 2</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="footer-text">® Registered with Ahmad Bhai</div>
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('menu-toggle');
+        const sideMenu = document.getElementById('side-menu');
+        const body = document.body;
+
+        toggleBtn.addEventListener('change', function() {
+            if(this.checked) {
+                sideMenu.classList.add('active');
+                body.classList.add('menu-open');
+            } else {
+                sideMenu.classList.remove('active');
+                body.classList.remove('menu-open');
+            }
+        });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB5RMsZqPR_K15GvOsKHLKPmRYKYTzzVvc",
+            authDomain: "system-d7401.firebaseapp.com",
+            databaseURL: "https://system-d7401-default-rtdb.firebaseio.com",
+            projectId: "system-d7401",
+            storageBucket: "system-d7401.firebasestorage.app",
+            messagingSenderId: "1012850905689",
+            appId: "1:1012850905689:web:4cb43cb6d136ccb98a1748"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const maintenanceRef = ref(db, "maintenance/status");
+
+        onValue(maintenanceRef, (snapshot) => {
+            if (snapshot.val() === true) {
+                window.location.href = "maintenance.html";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOW TO USE - AHMAD BHAI</title>
+    <title>BUY SCRIPTS - AHMAD BHAI</title>
     <style>
         :root {
             --bg-color: #1c242a;
             --accent-color: #5C13C3;
             --card-border: rgba(255, 255, 255, 0.3);
-            --highlight: #00ff00;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; font-family: 'Lucida Sans', sans-serif; }
@@ -24,13 +23,17 @@
             transition: 0.5s;
         }
 
-        body.menu-open #main-content { filter: blur(10px) brightness(0.5); pointer-events: none; }
+        /* Menu Open Effect */
+        body.menu-open #main-content {
+            filter: blur(10px) brightness(0.5);
+            pointer-events: none;
+        }
 
-        /* --- Fixed Header (Menu Button Sahi Wala) --- */
+        /* --- Fixed Header (Menu Button) --- */
         header { 
             position: fixed; 
             top: 0; 
-            right: 0; 
+            right: 0;
             width: 100%; 
             padding: 15px 25px; 
             display: flex; 
@@ -38,7 +41,7 @@
             z-index: 2000; 
             pointer-events: none; 
         }
-
+        
         .hamburger { cursor: pointer; pointer-events: auto; }
         .hamburger input { display: none; }
         .hamburger svg { height: 3em; transition: 600ms; }
@@ -47,7 +50,7 @@
         .hamburger input:checked + svg { transform: rotate(-45deg); }
         .hamburger input:checked + svg .line-top-bottom { stroke-dasharray: 20 300; stroke-dashoffset: -32.42; }
 
-        /* --- Sidebar Menu with Icons --- */
+        /* --- Sidebar Menu --- */
         .menu-container {
             position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
             background: rgba(28, 36, 42, 0.98); border-left: 3px solid var(--accent-color);
@@ -64,51 +67,79 @@
 
         /* --- Content Layout --- */
         #main-content { width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 70px; }
-        .title { background: rgba(255,255,255,0.1); color: white; font-size: 26px; text-align: center; padding: 1rem; border-radius: 10px; margin: 1rem auto; width: fit-content; border: 1px solid var(--card-border); }
-        
+
+        .title { 
+            background: rgba(255,255,255,0.1); 
+            color: white; 
+            font-size: 26px; 
+            text-align: center; 
+            padding: 1rem; 
+            border-radius: 10px; 
+            margin: 1rem auto; 
+            width: fit-content; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid var(--card-border);
+        }
+
         .logo-animate { 
-            width: 130px; height: 130px; animation: float 2s ease-in-out infinite; 
-            margin: 15px auto; display: block; border-radius: 50%; 
-            border: 5px solid var(--accent-color); box-shadow: 0 0 15px var(--accent-color);
+            width: 130px; 
+            height: 130px;
+            animation: float 2s ease-in-out infinite; 
+            margin: 15px auto; 
+            display: block; 
+            border-radius: 50%; 
+            border: 5px solid var(--accent-color); 
             object-fit: cover;
+            box-shadow: 0 0 15px var(--accent-color);
         }
         @keyframes float { 0%{transform:scale(1);} 50%{transform:scale(1.1);} 100%{transform:scale(1);} }
 
-        /* --- Script Boxes --- */
-        .script-grid { display: flex; flex-direction: column; gap: 20px; width: 90%; max-width: 500px; margin-bottom: 30px; }
-        .script-box {
+        /* --- Payment Card Box --- */
+        .payment-card {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--card-border);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 30px 20px;
+            width: 90%;
+            max-width: 450px;
             text-align: center;
             backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            line-height: 1.6;
         }
-        .script-box h3 { color: var(--accent-color); margin-bottom: 10px; font-size: 1.2rem; }
-        .script-box p { font-size: 13px; line-height: 1.6; color: #e0e0e0; margin-bottom: 15px; text-align: justify; }
-        
-        .highlight { color: var(--highlight); font-weight: bold; }
 
-        .watch-btn {
-            background: var(--accent-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
+        .payment-text {
+            font-size: 18px;
             font-weight: bold;
-            display: inline-block;
-            margin-top: 5px;
-            transition: 0.3s;
-            border: none;
+            color: #e0e0e0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .watch-btn:hover { background: #7b2dfa; transform: scale(1.05); }
 
-        video { width: 100%; border-radius: 10px; margin-top: 15px; display: none; border: 2px solid var(--accent-color); }
+        .highlight-id {
+            color: #00ff00;
+            font-size: 22px;
+            display: block;
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
 
-        .buy-here { margin: 25px 0; font-weight: bold; font-size: 18px; text-align: center; }
-        .buy-here a { color: var(--highlight); text-decoration: none; border-bottom: 2px solid var(--highlight); padding-bottom: 2px; }
+        .link-style {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 2px;
+            transition: 0.3s;
+        }
 
-        .footer-text { margin: 40px 0; font-size: 0.9rem; font-weight: bold; opacity: 0.8; }
+        .link-style:hover {
+            color: white;
+            border-color: white;
+        }
+
+        .footer-text { margin: 50px 0; font-size: 0.9rem; font-weight: bold; opacity: 0.8; }
+
     </style>
 </head>
 <body>
@@ -133,40 +164,24 @@
     </nav>
 
     <div id="main-content">
-        <div class="title">HOW TO USE</div>
+        <div class="title">BUY QUOTEX SCRIPTS</div>
+        
         <img src="logo.png" class="logo-animate">
 
-        <div class="script-grid">
-            <div class="script-box">
-                <h3>SCRIPT 1</h3>
-                <p>COPY THE SCRIPT TEXT AND OPEN QUOTEX WEBSITE AND CLICK ON  ⋮ THEN CLICK ON ★ BOOKMARK AND OPEN IT NOW CLICK ON NAME INPUT OPTION ERASE ALL NAME TEXT ADD SET (<span class="highlight">A</span> OR <span class="highlight">E</span>) ON IT THEN CLICK ON URL INPUT OPTION AND ALSO ERASE ALL URL TEXT AND PASTE YOUR COPIED CODE ON IT AND GO BACK AND REFRESH YOUR PAGE THEN CLICK OPEN TOP SEARCH OPTION AND SEARCH NAME YOU <span class="highlight">A</span> OR <span class="highlight">E</span> ON IT AND CLICK ON ★ <span class="highlight">A</span> OR ★ <span class="highlight">E</span> NOW YOUR SCRIPT IS READY NOW CONTACT AND UNLOCK IT.</p>
-                <button class="watch-btn" onclick="toggleVideo('v1')">WATCH VIDEO</button>
-                <video id="v1" controls><source src="1.mp4" type="video/mp4"></video>
-            </div>
-
-            <script>
-                for (let i = 2; i <= 8; i++) {
-                    document.write(`
-                    <div class="script-box">
-                        <h3>SCRIPT ${i}</h3>
-                        <p>OPEN WEBSITE THEN YOU SHOW A LOCK PAGE CONTACT AND UNLOCK IT.</p>
-                        <button class="watch-btn" onclick="toggleVideo('v${i}')">WATCH VIDEO</button>
-                        <video id="v${i}" controls><source src="${i}.mp4" type="video/mp4"></video>
-                    </div>
-                    `);
-                }
-            </script>
-        </div>
-
-        <div class="buy-here">
-            ALL SCRIPTS AVAILABLE <a href="buy-quotex-script.html">HERE</a>
+        <div class="payment-card">
+            <p class="payment-text">
+                PAY $30 ON BINANCE ID <br>
+                <span class="highlight-id">505638805</span>
+                <span class="highlight-id">AHMAD_BHAI_786</span>
+                AND SEND PAYMENT PROOF <a href="contact.html" class="link-style">HERE</a> AND 
+                <a href="contact.html" class="link-style">CONTACT</a> TO UNLOCK ALL SCRIPTS
+            </p>
         </div>
 
         <div class="footer-text">® Registered with Ahmad Bhai</div>
     </div>
 
     <script>
-        // Menu Toggle
         const toggleBtn = document.getElementById('menu-toggle');
         const sideMenu = document.getElementById('side-menu');
         const body = document.body;
@@ -180,22 +195,6 @@
                 body.classList.remove('menu-open');
             }
         });
-
-        // Video Toggle Function
-        function toggleVideo(id) {
-            const v = document.getElementById(id);
-            if (v.style.display === "block") {
-                v.style.display = "none";
-                v.pause();
-            } else {
-                // Hide other videos first (optional, for better UX)
-                document.querySelectorAll('video').forEach(vid => {
-                    if(vid.id !== id) { vid.style.display = 'none'; vid.pause(); }
-                });
-                v.style.display = "block";
-                v.play();
-            }
-        }
     </script>
 </body>
 </html>
